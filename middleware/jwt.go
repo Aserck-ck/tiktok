@@ -1,14 +1,14 @@
 package middleware
 
 import (
-	"github.com/ACking-you/byte_douyin_project/models"
+	"github.com/Aserck-ck/tiktok/blob/main/models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
 )
 
-var jwtKey = []byte("acking-you.xyz")
+var jwtKey = []byte("tiktok.xyz")
 
 type Claims struct {
 	UserId int64
