@@ -11,7 +11,7 @@ import (
 type Video struct {
 	Id            int64       `json:"id,omitempty"`
 	UserInfoId    int64       `json:"-"`
-	Author        UserInfo    `json:"author,omitempty" gorm:"-"` //这里应该是作者对视频的一对多的关系，而不是视频对作者，故gorm不能存他，但json需要返回它
+	Author        UserInfo    `json:"author,omitempty" gorm:"-"` 
 	PlayUrl       string      `json:"play_url,omitempty"`
 	CoverUrl      string      `json:"cover_url,omitempty"`
 	FavoriteCount int64       `json:"favorite_count,omitempty"`
@@ -39,18 +39,16 @@ func NewVideoDAO() *VideoDAO {
 	return videoDAO
 }
 
-// AddVideo 添加视频
-// 注意：由于视频和userinfo有多对一的关系，所以传入的Video参数一定要进行id的映射处理！
 func (v *VideoDAO) AddVideo(video *Video) error {
 	if video == nil {
-		return errors.New("AddVideo video 空指针")
+		return errors.New("AddVideo video nullptr")
 	}
 	return DB.Create(video).Error
 }
 
 func (v *VideoDAO) QueryVideoByVideoId(videoId int64, video *Video) error {
 	if video == nil {
-		return errors.New("QueryVideoByVideoId 空指针")
+		return errors.New("QueryVideoByVideoId nullptr")
 	}
 	return DB.Where("id=?", videoId).
 		Select([]string{"id", "user_info_id", "play_url", "cover_url", "favorite_count", "comment_count", "is_favorite", "title"}).
@@ -59,24 +57,23 @@ func (v *VideoDAO) QueryVideoByVideoId(videoId int64, video *Video) error {
 
 func (v *VideoDAO) QueryVideoCountByUserId(userId int64, count *int64) error {
 	if count == nil {
-		return errors.New("QueryVideoCountByUserId count 空指针")
+		return errors.New("QueryVideoCountByUserId count nullptr")
 	}
 	return DB.Model(&Video{}).Where("user_info_id=?", userId).Count(count).Error
 }
 
 func (v *VideoDAO) QueryVideoListByUserId(userId int64, videoList *[]*Video) error {
 	if videoList == nil {
-		return errors.New("QueryVideoListByUserId videoList 空指针")
+		return errors.New("QueryVideoListByUserId videoList nullptr")
 	}
 	return DB.Where("user_info_id=?", userId).
 		Select([]string{"id", "user_info_id", "play_url", "cover_url", "favorite_count", "comment_count", "is_favorite", "title"}).
 		Find(videoList).Error
 }
 
-// QueryVideoListByLimitAndTime  返回按投稿时间倒序的视频列表，并限制为最多limit个
 func (v *VideoDAO) QueryVideoListByLimitAndTime(limit int, latestTime time.Time, videoList *[]*Video) error {
 	if videoList == nil {
-		return errors.New("QueryVideoListByLimit videoList 空指针")
+		return errors.New("QueryVideoListByLimit videoList nullptr")
 	}
 	return DB.Model(&Video{}).Where("created_at<?", latestTime).
 		Order("created_at ASC").Limit(limit).
@@ -84,7 +81,6 @@ func (v *VideoDAO) QueryVideoListByLimitAndTime(limit int, latestTime time.Time,
 		Find(videoList).Error
 }
 
-// PlusOneFavorByUserIdAndVideoId 增加一个赞
 func (v *VideoDAO) PlusOneFavorByUserIdAndVideoId(userId int64, videoId int64) error {
 	return DB.Transaction(func(tx *gorm.DB) error {
 		if err := tx.Exec("UPDATE videos SET favorite_count=favorite_count+1 WHERE id = ?", videoId).Error; err != nil {
@@ -97,7 +93,6 @@ func (v *VideoDAO) PlusOneFavorByUserIdAndVideoId(userId int64, videoId int64) e
 	})
 }
 
-// MinusOneFavorByUserIdAndVideoId 减少一个赞
 func (v *VideoDAO) MinusOneFavorByUserIdAndVideoId(userId int64, videoId int64) error {
 	return DB.Transaction(func(tx *gorm.DB) error {
 		//执行-1之前需要先判断是否合法（不能被减少为负数
