@@ -44,7 +44,6 @@ type Config struct {
 
 var Info Config
 
-// 包初始化加载时候会调用的函数
 func init() {
 	if _, err := toml.DecodeFile("D:\\git-clone\\byte_douyin_project\\config\\config.toml", &Info); err != nil {
 		panic(err)
@@ -55,7 +54,6 @@ func init() {
 	strings.Trim(Info.DB.Host, " ")
 }
 
-// DBConnectString 填充得到数据库连接字符串
 func DBConnectString() string {
 	arg := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s&parseTime=%v&loc=%s",
 		Info.DB.Username, Info.DB.Password, Info.DB.Host, Info.DB.Port, Info.DB.Database,
