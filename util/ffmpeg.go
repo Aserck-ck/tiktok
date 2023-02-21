@@ -1,5 +1,10 @@
 package util
 
+//#include <stdlib.h>
+//int startCmd(const char* cmd){
+//	  return system(cmd);
+//}
+
 import "C"
 
 import (
