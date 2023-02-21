@@ -2,8 +2,8 @@ package user_login
 
 import (
 	"errors"
-	"github.com/ACking-you/byte_douyin_project/middleware"
-	"github.com/ACking-you/byte_douyin_project/models"
+	"github.com/Aserck-ck/tiktok/middleware"
+	"github.com/Aserck-ck/tiktok/models"
 )
 
 const (
@@ -17,7 +17,6 @@ type LoginResponse struct {
 	Token  string `json:"token"`
 }
 
-// QueryUserLogin 查询用户是否存在，并返回token和id
 func QueryUserLogin(username, password string) (*LoginResponse, error) {
 	return NewQueryUserLoginFlow(username, password).Do()
 }
@@ -36,15 +35,12 @@ type QueryUserLoginFlow struct {
 }
 
 func (q *QueryUserLoginFlow) Do() (*LoginResponse, error) {
-	//对参数进行合法性验证
 	if err := q.checkNum(); err != nil {
 		return nil, err
 	}
-	//准备好数据
 	if err := q.prepareData(); err != nil {
 		return nil, err
 	}
-	//打包最终数据
 	if err := q.packData(); err != nil {
 		return nil, err
 	}
@@ -67,14 +63,12 @@ func (q *QueryUserLoginFlow) checkNum() error {
 func (q *QueryUserLoginFlow) prepareData() error {
 	userLoginDAO := models.NewUserLoginDao()
 	var login models.UserLogin
-	//准备好userid
 	err := userLoginDAO.QueryUserLogin(q.username, q.password, &login)
 	if err != nil {
 		return err
 	}
 	q.userid = login.UserInfoId
 
-	//准备颁发token
 	token, err := middleware.ReleaseToken(login)
 	if err != nil {
 		return err
