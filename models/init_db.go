@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/ACking-you/byte_douyin_project/config"
+	"github.com/Aserck-ck/tiktok/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )

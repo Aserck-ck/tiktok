@@ -2,7 +2,8 @@ package user_info
 
 import (
 	"errors"
-	"github.com/ACking-you/byte_douyin_project/models"
+
+	"github.com/Aserck-ck/tiktok/models"
 )
 
 var (

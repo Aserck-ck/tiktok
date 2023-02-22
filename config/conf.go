@@ -45,7 +45,7 @@ type Config struct {
 var Info Config
 
 func init() {
-	if _, err := toml.DecodeFile("D:\\git-clone\\byte_douyin_project\\config\\config.toml", &Info); err != nil {
+	if _, err := toml.DecodeFile("D:\\yeah17981\\program\\project\\tiktok\\tiktok\\config\\config.toml", &Info); err != nil {
 		panic(err)
 	}
 	//去除左右的空格

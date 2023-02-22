@@ -1,11 +1,12 @@
 package middleware
 
 import (
-	"github.com/Aserck-ck/tiktok/blob/main/models"
-	"github.com/dgrijalva/jwt-go"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
+
+	"github.com/Aserck-ck/tiktok/models"
+	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 )
 
 var jwtKey = []byte("tiktok.xyz")

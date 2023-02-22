@@ -1,10 +1,11 @@
 package middleware
 
 import (
-	"github.com/Aserck-ck/tiktok/blob/main/models"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
+
+	"github.com/Aserck-ck/tiktok/models"
+	"github.com/gin-gonic/gin"
 )
 
 func NoAuthToGetUserId() gin.HandlerFunc {

@@ -2,8 +2,9 @@ package user_info
 
 import (
 	"errors"
-	"github.com/ACking-you/byte_douyin_project/cache"
-	"github.com/ACking-you/byte_douyin_project/models"
+
+	"github.com/Aserck-ck/tiktok/cache"
+	"github.com/Aserck-ck/tiktok/models"
 )
 
 const (
