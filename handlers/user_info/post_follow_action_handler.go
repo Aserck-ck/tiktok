@@ -33,7 +33,6 @@ func (p *ProxyPostFollowAction) Do() {
 		return
 	}
 	if err = p.startAction(); err != nil {
-		//当错误为model层发生的，那么就是重复键值的插入了
 		if errors.Is(err, user_info.ErrIvdAct) || errors.Is(err, user_info.ErrIvdFolUsr) {
 			p.SendError(err.Error())
 		} else {
@@ -48,11 +47,10 @@ func (p *ProxyPostFollowAction) prepareNum() error {
 	rawUserId, _ := p.Get("user_id")
 	userId, ok := rawUserId.(int64)
 	if !ok {
-		return errors.New("userId解析出错")
+		return errors.New("userId 出错")
 	}
 	p.userId = userId
 
-	//解析需要关注的id
 	followId := p.Query("to_user_id")
 	parseInt, err := strconv.ParseInt(followId, 10, 64)
 	if err != nil {
@@ -60,7 +58,7 @@ func (p *ProxyPostFollowAction) prepareNum() error {
 	}
 	p.followId = parseInt
 
-	//解析action_type
+	//action_type
 	actionType := p.Query("action_type")
 	parseInt, err = strconv.ParseInt(actionType, 10, 32)
 	if err != nil {
