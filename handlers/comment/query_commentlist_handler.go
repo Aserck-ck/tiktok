@@ -32,20 +32,17 @@ func NewProxyCommentListHandler(context *gin.Context) *ProxyCommentListHandler {
 }
 
 func (p *ProxyCommentListHandler) Do() {
-	//解析参数
 	if err := p.parseNum(); err != nil {
 		p.SendError(err.Error())
 		return
 	}
 
-	//正式调用
 	commentList, err := comment.QueryCommentList(p.userId, p.videoId)
 	if err != nil {
 		p.SendError(err.Error())
 		return
 	}
 
-	//成功返回
 	p.SendOk(commentList)
 }
 
@@ -53,7 +50,7 @@ func (p *ProxyCommentListHandler) parseNum() error {
 	rawUserId, _ := p.Get("user_id")
 	userId, ok := rawUserId.(int64)
 	if !ok {
-		return errors.New("userId解析出错")
+		return errors.New("userId went wrong")
 	}
 	p.userId = userId
 
