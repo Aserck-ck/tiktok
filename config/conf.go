@@ -48,7 +48,6 @@ func init() {
 	if _, err := toml.DecodeFile("D:\\yeah17981\\program\\project\\tiktok\\tiktok\\config\\config.toml", &Info); err != nil {
 		panic(err)
 	}
-	//去除左右的空格
 	strings.Trim(Info.Server.IP, " ")
 	strings.Trim(Info.RDB.IP, " ")
 	strings.Trim(Info.DB.Host, " ")
