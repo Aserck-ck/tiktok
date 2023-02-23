@@ -35,7 +35,6 @@ func NewProxyPostCommentHandler(context *gin.Context) *ProxyPostCommentHandler {
 }
 
 func (p *ProxyPostCommentHandler) Do() {
-	//解析参数
 	if err := p.parseNum(); err != nil {
 		p.SendError(err.Error())
 		return
@@ -48,7 +47,6 @@ func (p *ProxyPostCommentHandler) Do() {
 		return
 	}
 
-	//成功返回
 	p.SendOk(commentRes)
 }
 
@@ -56,7 +54,7 @@ func (p *ProxyPostCommentHandler) parseNum() error {
 	rawUserId, _ := p.Get("user_id")
 	userId, ok := rawUserId.(int64)
 	if !ok {
-		return errors.New("userId解析出错")
+		return errors.New("userId went wrong")
 	}
 	p.userId = userId
 
@@ -67,7 +65,6 @@ func (p *ProxyPostCommentHandler) parseNum() error {
 	}
 	p.videoId = videoId
 
-	//根据actionType解析对应的可选参数
 	rawActionType := p.Query("action_type")
 	actionType, err := strconv.ParseInt(rawActionType, 10, 64)
 	switch actionType {
@@ -79,7 +76,7 @@ func (p *ProxyPostCommentHandler) parseNum() error {
 			return err
 		}
 	default:
-		return fmt.Errorf("未定义的行为%d", actionType)
+		return fmt.Errorf("undefined %d", actionType)
 	}
 	p.actionType = actionType
 	return nil
