@@ -69,9 +69,9 @@ a.	总结
 3.2 架构设计
 以用户登录为例共需要经过以下过程：  
 1.	进入中间件SHAMiddleWare内的函数逻辑，得到password明文加密后再设置password。具体需要调用gin.Context的Set方法设置password。随后调用next()方法继续下层路由。  
-2.	进入UserLoginHandler函数逻辑，获取username，并调用gin.Context的Get方法得到中间件设置的password。再调用service层的QueryUserLogin函数。  
-3.	进入QueryUserLogin函数逻辑，执行三个过程：checkNum，prepareData，packData。也就是检查参数、准备数据、打包数据，准备数据的过程中会调用models层的UserLoginDAO。  
-4.	进入UserLoginDAO的逻辑，执行最终的数据库请求过程，返回给上层。  
+2.	进入LoginHandler函数逻辑，获取username，并调用gin.Context的Get方法得到中间件设置的password。再调用service层的QueryrLogin函数。  
+3.	进入QueryLogin函数逻辑，执行三个过程：checkNum，prepareData，packData。也就是检查参数、准备数据、打包数据，准备数据的过程中会调用models层的LoginDAO。  
+4.	进入LoginDAO的逻辑，执行最终的数据库请求过程，返回给上层。  
 Handlers  
 对于handlers层级的所有函数实现有如下规范：  
 所有的逻辑由代理对象进行，完成以下两个逻辑  
@@ -79,7 +79,6 @@ Handlers
 2.	开始调用下层逻辑。  
 例如一个关注动作触发的逻辑：  
 NewProxyPostFollowAction().Do()  
-//其中Do主要包含以下两个逻辑，对应两个方法p.parseNum() //解析参数p.startAction() //开始调用下层逻辑  
 
 Service  
 对于service层级的函数实现由如下规范：  
@@ -93,7 +92,6 @@ Service
 2.	执行上层指定的动作。  
 例如关注动作在service层的逻辑属于第二类：  
 NewPostFollowActionFlow(...).Do()  
-//Do中包含以下两个逻辑p.checkNum() //检查参数p.publish() //执行动作  
 
 Models  
 对于models层的各个操作，没有像service和handler层针对前端发来的请求就行对应的处理，models层是面向于数据库的增删改查，不需要考虑和上层的交互。  
