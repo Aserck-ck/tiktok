@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var jwtKey = []byte("tiktok.xyz")
+var jwtKey = []byte("aqua.tiktok")
 
 type Claims struct {
 	UserId int64
@@ -24,7 +24,7 @@ func ReleaseToken(user models.UserLogin) (string, error) {
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 			IssuedAt:  time.Now().Unix(),
-			Issuer:    "douyin_pro_131",
+			Issuer:    "douyin_ack",
 			Subject:   "L_B__",
 		}}
 
