@@ -24,7 +24,7 @@ func ReleaseToken(user models.UserLogin) (string, error) {
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 			IssuedAt:  time.Now().Unix(),
-			Issuer:    "douyin_ack",
+			Issuer:    "tiktok_ack",
 			Subject:   "L_B__",
 		}}
 
